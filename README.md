@@ -1,7 +1,7 @@
 # g3client
 
 Python client library for [`g3api`](../../src/g3api) — the Golismero3 pentesting
-framework. Golismero-only; no LLM concerns.
+framework.
 
 The library is layered in three tiers, each built strictly on the one below:
 
@@ -10,15 +10,6 @@ The library is layered in three tiers, each built strictly on the one below:
 | 1 | `g3client.api` | Thin, resource-grouped wrappers over every `g3api` endpoint. One method per call, no hidden behaviour. |
 | 2 | `g3client.scanner` | High-level helper for **orchestrated** scans (the `g3cli`/`g3tui` flow): `Scanner.scan()` launches, waits, and returns a report. |
 | 3 | `g3client.manager` | High-level helper for **managed** scans: `Manager` tracks scan/task IDs, launches tools, and `run()` drives one tool to completion. |
-
-Tiers 2 and 3 use `g3client.api` exclusively — they never touch HTTP directly. See
-[docs/design/g3client-architecture.md](../../docs/design/g3client-architecture.md) for the
-language-agnostic design (and the blueprint for future ports such as a Go client).
-
-> The `api` tier's method **names** track the upcoming
-> [REST migration](../../docs/future/http-routing-and-rest-migration.md) while their
-> **bodies** call today's endpoints, so that migration becomes a per-method edit with no
-> change to your code. Every such site is tagged `# REST-MIGRATION:` in the source.
 
 ## Requirements
 
@@ -59,7 +50,7 @@ manager = Manager.from_credentials()
 A runnable version of the examples below lives in
 [`examples/quickstart.py`](examples/quickstart.py).
 
-### Tier 2 — orchestrated scan (`Scanner`)
+### Orchestrated scan (`Scanner`)
 
 Launch a scan, stream progress, and get a report back. `report` names the reporter
 plugin and an optional preset (`"tool"`, `"tool:preset"`, or a `(tool, preset)` tuple) —
@@ -91,7 +82,7 @@ elif report.report_path is not None:
 `TaskCancelled` if the scan is canceled. Pass a raw `script="..."` instead of
 `targets`/`pipeline` to drive the scan with a hand-written g3 script.
 
-### Tier 3 — managed scan (`Manager`)
+### Managed scan (`Manager`)
 
 Own a managed scan, add a target, and run a single tool to completion — downloading its
 artifacts and collecting the G3Data it produced.
@@ -125,7 +116,7 @@ To re-attach to an existing managed scan (e.g. after a restart), pass its id:
 asynchronously and returns task IDs, `poll()` / `wait()` track status, `fetch_artifacts()`
 downloads a bundle, and `results()` returns a task's G3Data.
 
-### Tier 1 — direct API access (`ApiClient`)
+### Direct API access (`ApiClient`)
 
 When you want raw, one-call-per-method access (or are building your own orchestration):
 
