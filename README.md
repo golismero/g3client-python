@@ -1,7 +1,6 @@
 # g3client
 
-Python client library for [`g3api`](../../src/g3api) — the Golismero3 pentesting
-framework.
+Python client library for the Golismero3 pentesting framework.
 
 The library is layered in three tiers, each built strictly on the one below:
 
