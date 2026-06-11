@@ -124,6 +124,9 @@ class PluginInfo:
     category: str
     url: str
     description: str
+    importer: bool = False
+    reporter: bool = False
+    runnable: bool = False
     raw: dict[str, Any] = field(default_factory=dict)
 
     @classmethod
@@ -133,6 +136,9 @@ class PluginInfo:
             category=d.get("category", ""),
             url=d.get("url", ""),
             description=d.get("description", ""),
+            importer=bool(d.get("importer", False)),
+            reporter=bool(d.get("reporter", False)),
+            runnable=bool(d.get("runnable", False)),
             raw=d,
         )
 
